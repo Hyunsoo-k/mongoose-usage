@@ -1,0 +1,27 @@
+&unwind : 배열을 평탕화 하거나 배열을 개별 문서로 분리
+
+ex)
+
+-- TARGET --
+
+{ "_id": 1, "user": "Alice", "hobbies": ["Reading", "Gaming"] }
+{ "_id": 2, "user": "Bob", "hobbies": [] }
+{ "_id": 3, "user": "Charlie", "hobbies": null }
+
+-- execution --
+
+User.aggregate([
+  {
+    $unwind: {
+      path: "$hobbies",
+      preserveNullAndEmptyArrays: true
+    }
+  }
+]}
+
+-- RESULT --
+
+{ "_id": 1, "user": "Alice", "hobbies": "Reading" }
+{ "_id": 1, "user": "Alice", "hobbies": "Gaming" }
+{ "_id": 2, "user": "Bob", "hobbies": null }
+{ "_id": 3, "user": "Charlie", "hobbies": null }
