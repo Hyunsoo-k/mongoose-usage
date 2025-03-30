@@ -8,7 +8,7 @@ ex)
 { "_id": 2, "user": "Bob", "hobbies": [] }
 { "_id": 3, "user": "Charlie", "hobbies": null }
 
--- execution --
+-- EXECUTION --
 
 User.aggregate([
   {
