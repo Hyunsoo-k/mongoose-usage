@@ -6,16 +6,16 @@ ex)
 
 // User
 [
-  { "_id": 1, "name": "Alice", "post_id": 101 },
-  { "_id": 2, "name": "Bob", "post_id": 102 },
-  { "_id": 3, "name": "Charlie", "post_id": 103 }
+  { _id: ObjectId(...), name: "Alice", post_id: ObjectId(..1) },
+  { _id: ObjectId(...), name: "Bob", post_id: ObjectId(..2) },
+  { _id: ObjectId(...), name: "Charlie", post_id: ObjectId(..3) }
 ]
 
 // Post
 [
-  { "_id": 101, "title": "Post 1", "content": "This is post 1." },
-  { "_id": 102, "title": "Post 2", "content": "This is post 2." },
-  { "_id": 103, "title": "Post 3", "content": "This is post 3." }
+  { _id: ObjectId(..1), title: "Post 1", content: "This is post 1." },
+  { _id: ObjectId(..2), title: "Post 2", content: "This is post 2." },
+  { _id: ObjectId(..3), title: "Post 3", content: "This is post 3." }
 ]
 
 -- EXECUTION --
@@ -35,27 +35,27 @@ User.aggregate([
 
 [
   { 
-    "_id": 1, 
-    "name": "Alice", 
-    "post_id": 101, 
-    "userPosts": [
-      { "_id": 101, "title": "Post 1", "content": "This is post 1." }
+    _id: ObjectId(...), 
+    name: "Alice", 
+    post_id: ObjectId(..1), 
+    userPosts: [
+      { _id: ObjectId(..1), title: "Post 1", content: "This is post 1." }
     ]
   },
   { 
-    "_id": 2, 
-    "name": "Bob", 
-    "post_id": 102, 
-    "userPosts": [
-      { "_id": 102, "title": "Post 2", "content": "This is post 2." }
+    _id: ObjectId(...), 
+    name: "Bob", 
+    post_id: ObjectId(..2), 
+    userPosts: [
+      { _id: ObjectId(..2), title: "Post 2", content: "This is post 2." }
     ]
   },
   { 
-    "_id": 3, 
-    "name": "Charlie", 
-    "post_id": 103, 
-    "userPosts": [
-      { "_id": 103, "title": "Post 3", "content": "This is post 3." }
+    _id: ObjectId(...), 
+    name: "Charlie", 
+    post_id: ObjectId(..3), 
+    userPosts: [
+      { _id: ObjectId(..3), title: "Post 3", content: "This is post 3." }
     ]
   }
 ]
