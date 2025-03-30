@@ -35,11 +35,7 @@ db.orders.aggregate([
 
 db.orders.aggregate([
   {
-    $project: {
-      order_id: 1,
-      total_price: 1,
-      final_amount: { $subtract: ["$total_price", "$discount"] },  // 새 필드 이름을 final_amount로 변경
-    }
+    $project: { old_price: "$final_price" } // final_price 필드명을 old_price로 변경
   }
 ])
 
