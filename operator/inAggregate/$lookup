@@ -1,0 +1,61 @@
+$lookup : 2개 이상의 컬렉션을 JOIN 시키는 연산자
+
+ex)
+
+-- TARGET --
+
+// User
+[
+  { "_id": 1, "name": "Alice", "post_id": 101 },
+  { "_id": 2, "name": "Bob", "post_id": 102 },
+  { "_id": 3, "name": "Charlie", "post_id": 103 }
+]
+
+// Post
+[
+  { "_id": 101, "title": "Post 1", "content": "This is post 1." },
+  { "_id": 102, "title": "Post 2", "content": "This is post 2." },
+  { "_id": 103, "title": "Post 3", "content": "This is post 3." }
+]
+
+-- EXECUTION --
+
+User.aggregate([
+  {
+    $lookup: {
+      from: "posts", // 'posts' 컬렉션과 JOIN
+      localField: "post_id", // 'users' 컬렉션의 'post_id' 필드
+      foreignField: "_id", // 'posts' 컬렉션의 '_id' 필드
+      as: "userPosts" // 결과 필드 이름
+    }
+  }
+])
+
+-- RESULT --
+
+[
+  { 
+    "_id": 1, 
+    "name": "Alice", 
+    "post_id": 101, 
+    "userPosts": [
+      { "_id": 101, "title": "Post 1", "content": "This is post 1." }
+    ]
+  },
+  { 
+    "_id": 2, 
+    "name": "Bob", 
+    "post_id": 102, 
+    "userPosts": [
+      { "_id": 102, "title": "Post 2", "content": "This is post 2." }
+    ]
+  },
+  { 
+    "_id": 3, 
+    "name": "Charlie", 
+    "post_id": 103, 
+    "userPosts": [
+      { "_id": 103, "title": "Post 3", "content": "This is post 3." }
+    ]
+  }
+]
