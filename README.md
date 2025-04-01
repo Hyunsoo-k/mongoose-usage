@@ -23,7 +23,7 @@ query는 기본적으로 조건에 맞는 문서들을 찾아 원본 그대로 �
 
 # aggregate()
 
-aggregate는 여러개의 Stage를 순차적으로 거치는 pipeLine을 구축할 수 있습니다. 각 stage 특정 연산을 수행하며, 결과를 다음 Stage로 전달하여 보다 복잡하고 정밀한 가공이 가능합니다.
+aggregate는 여러개의 Stage를 순차적으로 거치는 pipeLine을 구축할 수 있습니다. 각 stage 특정 연산을 수행하며, 결과를 다음 Stage로 전달하여 보다 복잡하고 정밀한 가공이 가능합니다. aggregate()에서만 사용할 수 있는 연산자를 aggregation 연산자라고 합니다.
 
 ex) await User.aggregate([ { $match: { age: { $gte: 30 } } }, { $projection: { name: 1, age: 0, score: 1 } } ])
 

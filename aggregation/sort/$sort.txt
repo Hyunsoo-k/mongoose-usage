@@ -1,0 +1,28 @@
+$sort : 특정 필드의 값을 기준으로 정렬하는 aggregation 연산자,
+
+구문 : { $sort: { <field>: <1 or -1>, <field>: <1 or 1>, ... } } // 1은 오름차순, -1은 내림차순
+
+-- TARGET --
+
+[
+  { _id: ObjectId("..."), name: "Laptop", price: 1200, quantity: 10 },
+  { _id: ObjectId("..."), name: "Mouse", price: 25, quantity: 50 },
+  { _id: ObjectId("..."), name: "Keyboard", price: 75, quantity: 20 },
+  { _id: ObjectId("..."), name: "Monitor", price: 300, quantity: 15 }
+]
+
+-- EXECUTION --
+
+db.collection.aggregate([
+  { $sort: { price: 1 } }
+]);
+
+
+-- RESULT --
+
+[
+  { _id: ObjectId("..."), name: "Mouse", price: 25, quantity: 50 },
+  { _id: ObjectId("..."), name: "Keyboard", price: 75, quantity: 20 },
+  { _id: ObjectId("..."), name: "Monitor", price: 300, quantity: 15 },
+  { _id: ObjectId("..."), name: "Laptop", price: 1200, quantity: 10 }
+]
