@@ -1,0 +1,48 @@
+$elemMatch : 배열 필드내에서 조건에 맞는 문서 혹은 값이 있을 시, 해당 값을 포함하고 있는 최상위 문서를 원본 그대로 반환
+
+-- TARGET --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "kim",
+    score: [
+      { subject: "english", score: 80 },
+      { subject: "math", score: 70 },
+      { subject: "science", score: 70 },
+    ]
+  },
+  {
+    _id: ObjectId(...),
+    name: "Lee",
+    score: [
+      { subject: "english", score: 100 },
+      { subject: "math", score: 50 },
+      { subject: "science", score: 80 },
+    ]
+  }
+]
+
+-- EXECUTION --
+
+db.collection.find(
+  { score: {
+    $eleMatch: {
+      score: { $gte: 100 }
+    }
+  }}
+)
+
+-- RESULT --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "Lee",
+    score: [
+      { subject: "english", score: 100 },
+      { subject: "math", score: 50 },
+      { subject: "science", score: 80 },
+    ]
+  }
+]
