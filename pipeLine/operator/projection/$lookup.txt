@@ -1,0 +1,61 @@
+$lookup : 2개 이상의 컬렉션을 JOIN 시키는 연산자
+
+ex)
+
+-- TARGET --
+
+// User
+[
+  { _id: ObjectId(...), name: "Alice", post_id: ObjectId(..1) },
+  { _id: ObjectId(...), name: "Bob", post_id: ObjectId(..2) },
+  { _id: ObjectId(...), name: "Charlie", post_id: ObjectId(..3) }
+]
+
+// Post
+[
+  { _id: ObjectId(..1), title: "Post 1", content: "This is post 1." },
+  { _id: ObjectId(..2), title: "Post 2", content: "This is post 2." },
+  { _id: ObjectId(..3), title: "Post 3", content: "This is post 3." }
+]
+
+-- EXECUTION --
+
+User.aggregate([
+  {
+    $lookup: {
+      from: "posts", // 'posts' 컬렉션과 JOIN
+      localField: "post_id", // 'users' 컬렉션의 'post_id' 필드
+      foreignField: "_id", // 'posts' 컬렉션의 '_id' 필드
+      as: "userPosts" // 결과 필드 이름
+    }
+  }
+])
+
+-- RESULT --
+
+[
+  { 
+    _id: ObjectId(...), 
+    name: "Alice", 
+    post_id: ObjectId(..1), 
+    userPosts: [
+      { _id: ObjectId(..1), title: "Post 1", content: "This is post 1." }
+    ]
+  },
+  { 
+    _id: ObjectId(...), 
+    name: "Bob", 
+    post_id: ObjectId(..2), 
+    userPosts: [
+      { _id: ObjectId(..2), title: "Post 2", content: "This is post 2." }
+    ]
+  },
+  { 
+    _id: ObjectId(...), 
+    name: "Charlie", 
+    post_id: ObjectId(..3), 
+    userPosts: [
+      { _id: ObjectId(..3), title: "Post 3", content: "This is post 3." }
+    ]
+  }
+]
