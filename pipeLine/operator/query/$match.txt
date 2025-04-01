@@ -1,0 +1,43 @@
+$match : 특정 조건을 만족하는 문서를 반환하는 파이프라인 전용 query 연산자
+
+-- TARGET --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "alice",
+    score: [
+      { subject: "math", score: 90 },
+      { subject: "english", score: 80 }
+    ]
+  },
+  {
+    _id: ObjectId(...),
+    name: "david",
+    score: [
+      { subject: "math", score: 60 },
+      { subject: "english", score: 100 }
+    ]
+  }
+]
+
+-- EXECUTION --
+
+db.collection.aggregate([
+  { $match: {
+    "score.score" : { $gte: 100 }
+  }
+])
+
+-- RESULT --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "david",
+    score: [
+      { subject: "math", score: 60 },
+      { subject: "english", score: 100 }
+    ]
+  }
+]
