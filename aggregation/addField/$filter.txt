@@ -1,0 +1,80 @@
+$filter : 배열 필드 내의 요소들을 특정 조건으로 필터링하여, 조건을 만족하는 요소들로 이루어진 새로운 배열을 반환하는 aggregation 연산자
+
+구문 : {
+  $filter: {
+    input: <배열 필드>,
+    as: "<배열 요소를 가리킬 변수명>",
+    cond: <필터링 조건>,
+    limit: <숫자 표현식> // MongoDB 5.2부터 사용 가능 (선택 사항)
+  }
+}
+
+-- TARGET --
+
+[
+  {
+    _id: ObjectId("..."),
+    name: "Alice",
+    grades: [
+      { subject: "Math", score: 85 },
+      { subject: "Science", score: 92 },
+      { subject: "English", score: 78 }
+    ]
+  },
+  {
+    _id: ObjectId("..."),
+    name: "Bob",
+    grades: [
+      { subject: "Math", score: 70 },
+      { subject: "Science", score: 88 }
+    ]
+  },
+  {
+    _id: ObjectId("..."),
+    name: "Charlie",
+    grades: []
+  }
+]
+
+-- EXECUTION --
+
+db.collection.aggregate([
+  {
+    $project: {
+      _id: 1,
+      name: 1,
+      highScores: {
+        $filter: {
+          input: "$grades", //$는 필드를 참조할 때 사용하는 표기법
+          as: "grade", // 배열의 각 요소를 참조하는 변수명
+          cond: { $gte: ["$$grade.score", 80] } // $$는 $filter 내부에서 사용할 변수를 의미, 여기선 grades 배열요소의 score 필드를 참조
+        }
+      }
+    }
+  }
+]);
+
+-- RESULT --
+
+[
+  {
+    _id: ObjectId("..."),
+    name: "Alice",
+    highScores: [
+      { subject: "Math", score: 85 },
+      { subject: "Science", score: 92 }
+    ]
+  },
+  {
+    _id: ObjectId("..."),
+    name: "Bob",
+    highScores: [
+      { subject: "Science", score: 88 }
+    ]
+  },
+  {
+    _id: ObjectId("..."),
+    name: "Charlie",
+    highScores: []
+  }
+]
