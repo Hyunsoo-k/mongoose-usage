@@ -1,0 +1,49 @@
+$elemMatch : 배열 필드에서 조건과 일치하는 조건을 만족하는 특정 요소만 반환하는 연산자
+
+-- CONSTRUCTION --
+
+
+-- TARGET --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "alice",
+    scores: [
+      { subject: "math", score: 80 },
+      { subject: "english", score: 70 }
+    ]
+  },
+  {
+    _id: ObjectId(...),
+    name: "david",
+    scores: [
+      { subject: "math", score: 50 },
+      { subject: "english", score: 100 }
+    ]
+  }
+]
+
+-- EXECUTION --
+
+db.collection.find(
+  { },
+  { 
+    name: 1,
+    scores: { 
+      $elemMatch: { score: { $gte: 100 } }
+    }
+  }
+)
+
+-- RESULT --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "david",
+    scores: [
+      { subject: "english", score: 100 }
+    ]
+  }
+]
