@@ -24,4 +24,5 @@ Normal-Filtering은 데이터를 조회할 때, query단계와 projection 단계
 # PipeLine
 
 Aggregation Framework를 활용하여 여러 단계에 걸쳐 데이터를 처리하고 변환하는 방법
+
 - aggregate([])의 배열에 Stage라는 변환 작업들을 나열하여 보다 정교하게 필터링, 변환할 수 있게 합니다.
