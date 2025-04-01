@@ -1,0 +1,51 @@
+$includeFields : 지정한 필드만 유지한 채 반환하는 연산자
+
+-- TARGET --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "kim",
+    age: 30,
+    department: "frontEnd",
+  },
+  {
+    _id: ObjectId(...),
+    name: "Lee",
+    age: 29,
+    department: "frontEnd",
+  },
+  {
+    _id: ObjectId(...),
+    name: "Park",
+    age: 25,
+    department: "backEnd",
+  },
+]
+
+-- EXECUTION --
+
+db.collection.find(
+  {},
+  { $includeFields: ["name", "department"] }
+);
+
+-- RESULT --
+
+[
+  {
+    _id: ObjectId(...),
+    name: "kim",
+    department: "frontEnd",
+  },
+  {
+    _id: ObjectId(...),
+    name: "Lee",
+    department: "frontEnd",
+  },
+  {
+    _id: ObjectId(...),
+    name: "Park",
+    department: "backEnd",
+  },
+]
