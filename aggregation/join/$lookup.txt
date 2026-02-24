@@ -6,27 +6,27 @@ ex)
 
 // User
 [
-  { _id: ObjectId(...), name: "Alice", post_id: ObjectId(..1) },
-  { _id: ObjectId(...), name: "Bob", post_id: ObjectId(..2) },
-  { _id: ObjectId(...), name: "Charlie", post_id: ObjectId(..3) }
+  { _id: ObjectId(..1), name: "Alice" },
+  { _id: ObjectId(..2), name: "Bob" },
+  { _id: ObjectId(..3), name: "Charlie" }
 ]
 
 // Post
 [
-  { _id: ObjectId(..1), title: "Post 1", content: "This is post 1." },
-  { _id: ObjectId(..2), title: "Post 2", content: "This is post 2." },
-  { _id: ObjectId(..3), title: "Post 3", content: "This is post 3." }
+  { _id: ObjectId(..a), title: "Post 1", content: "This is post 1.", author:  ObjectId(..1) },
+  { _id: ObjectId(..b), title: "Post 2", content: "This is post 2.", author: ObjectId(..2) },
+  { _id: ObjectId(..c), title: "Post 3", content: "This is post 3.", author: ObjectId(..3) }
 ]
 
 -- EXECUTION --
 
-User.aggregate([
+Post.aggregate([
   {
     $lookup: {
-      from: "posts", // 'posts' 컬렉션과 JOIN
-      localField: "post_id", // 'users' 컬렉션의 'post_id' 필드
-      foreignField: "_id", // 'posts' 컬렉션의 '_id' 필드
-      as: "userPosts" // 결과 필드 이름
+      from: "users", // users 컬렉션과 JOIN
+      localField: "author", // posts 컬렉션의 author 필드
+      foreignField: "_id", // users 컬렉션의 _id 필드
+      as: "author" // 결과 필드 이름
     }
   }
 ])
@@ -35,27 +35,21 @@ User.aggregate([
 
 [
   { 
-    _id: ObjectId(...), 
-    name: "Alice", 
-    post_id: ObjectId(..1), 
-    userPosts: [
-      { _id: ObjectId(..1), title: "Post 1", content: "This is post 1." }
-    ]
+    _id: ObjectId(..a), 
+    title: "Post 1", 
+    content: "This is post 1.",
+    author: [{ _id: ObjectId(..1), name: "Alice" }]
   },
   { 
-    _id: ObjectId(...), 
-    name: "Bob", 
-    post_id: ObjectId(..2), 
-    userPosts: [
-      { _id: ObjectId(..2), title: "Post 2", content: "This is post 2." }
-    ]
+    _id: ObjectId(..b), 
+    title: "Post 2", 
+    content: "This is post 2.",
+    author: [{_id: ObjectId(..2), name: "Bob" }]
   },
   { 
-    _id: ObjectId(...), 
-    name: "Charlie", 
-    post_id: ObjectId(..3), 
-    userPosts: [
-      { _id: ObjectId(..3), title: "Post 3", content: "This is post 3." }
-    ]
+    _id: ObjectId(..c), 
+    title: "Post 3", 
+    content: "This is post 3.",
+    author: [{ _id: ObjectId(..3), name: "Charlie" }]
   }
 ]
